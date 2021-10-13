@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">JetpackComposeNewsApp</string>
     <string name="open_news_link">More info ...</string>
     <string name="Top_news">Top news</string>
 </resources>

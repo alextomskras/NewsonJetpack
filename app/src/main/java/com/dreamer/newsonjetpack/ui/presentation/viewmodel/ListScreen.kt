@@ -19,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -51,7 +52,7 @@ fun ListScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Top news") },
+                title = { Text(stringResource(R.string.Top_news)) },
             )
         }
     )
@@ -60,13 +61,18 @@ fun ListScreen(
             items(news) { new ->
                 Card(
                     shape = RoundedCornerShape(8.dp),
-                    modifier = Modifier.padding(8.dp).fillMaxWidth().clickable {
-                        navController.navigate("${Destinations.DETAILS_SCREEN}/${new.title}")
-                    },
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth()
+                        .clickable {
+                            navController.navigate("${Destinations.DETAILS_SCREEN}/${new.title}")
+                        },
                 ) {
                     Column {
                         Image(
-                            modifier = Modifier.fillMaxWidth().aspectRatio(16f / 9f),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .aspectRatio(16f / 9f),
                             painter = rememberImagePainter(
                                 data = new.urlToImage,
                                 builder = {
