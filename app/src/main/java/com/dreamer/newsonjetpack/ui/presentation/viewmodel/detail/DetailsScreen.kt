@@ -1,4 +1,4 @@
-package com.dreamer.newsonjetpack.ui.presentation.viewmodel
+package com.dreamer.newsonjetpack.ui.presentation.viewmodel.detail
 
 import android.content.Intent
 import android.net.Uri

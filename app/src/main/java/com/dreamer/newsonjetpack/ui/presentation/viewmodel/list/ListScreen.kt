@@ -1,5 +1,6 @@
-package com.dreamer.newsonjetpack.ui.presentation.viewmodel
+package com.dreamer.newsonjetpack.ui.presentation.viewmodel.list
 
+//import com.dreamer.newsonjetpack.Destinations
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -8,12 +9,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -28,11 +27,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
-//import com.dreamer.newsonjetpack.Destinations
 import com.dreamer.newsonjetpack.R
 import com.dreamer.newsonjetpack.model.News
 import com.dreamer.newsonjetpack.ui.presentation.Destinations
 import com.dreamer.newsonjetpack.ui.theme.NewsAppTheme
+
+object Destinations {
+    const val LIST_SCREEN = "LIST_SCREEN"
+    const val DETAILS_SCREEN = "DETAILS_SCREEN"
+    const val SEARCH_SCREEN = "SEARCH_SCREEN"
+}
 
 @Composable
 fun ListScreen(
@@ -50,11 +54,24 @@ fun ListScreen(
     news: List<News>
 ) {
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.Top_news)) },
-            )
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    navController.navigate(Destinations.SEARCH_SCREEN)
+                },
+                backgroundColor = MaterialTheme.colors.primary
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = stringResource(R.string.Add_note)
+                )
+            }
         }
+//        topBar = {
+//            TopAppBar(
+//                title = { Text(stringResource(R.string.Top_news)) },
+//            )
+//        }
     )
     {
         LazyColumn {

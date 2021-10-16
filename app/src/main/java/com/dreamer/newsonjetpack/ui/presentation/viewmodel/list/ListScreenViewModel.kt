@@ -1,4 +1,4 @@
-package com.dreamer.newsonjetpack.ui.presentation.viewmodel
+package com.dreamer.newsonjetpack.ui.presentation.viewmodel.list
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

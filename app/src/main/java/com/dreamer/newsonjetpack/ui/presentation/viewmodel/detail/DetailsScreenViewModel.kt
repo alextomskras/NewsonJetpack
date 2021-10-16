@@ -1,4 +1,4 @@
-package com.dreamer.newsonjetpack.ui.presentation.viewmodel
+package com.dreamer.newsonjetpack.ui.presentation.viewmodel.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.dreamer.newsonjetpack.model.News
 import com.dreamer.newsonjetpack.repository.NewsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class DetailsScreenViewModel @Inject constructor(

@@ -8,14 +8,16 @@ import androidx.compose.material.Surface
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.dreamer.newsonjetpack.ui.presentation.viewmodel.DetailsScreen
-import com.dreamer.newsonjetpack.ui.presentation.viewmodel.ListScreen
+import com.dreamer.newsonjetpack.ui.presentation.viewmodel.detail.DetailsScreen
+import com.dreamer.newsonjetpack.ui.presentation.viewmodel.list.ListScreen
+import com.dreamer.newsonjetpack.ui.presentation.viewmodel.search.SearchScreen
 import com.dreamer.newsonjetpack.ui.theme.NewsAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 object Destinations {
     const val LIST_SCREEN = "LIST_SCREEN"
     const val DETAILS_SCREEN = "DETAILS_SCREEN"
+    const val SEARCH_SCREEN = "SEARCH_SCREEN"
 }
 
 @AndroidEntryPoint
@@ -38,6 +40,9 @@ class MainActivity : ComponentActivity() {
                             it.arguments?.getString("newTitle")?.let { title ->
                                 DetailsScreen(title, navController)
                             }
+                        }
+                        composable(Destinations.SEARCH_SCREEN) {
+                            SearchScreen(navController)
                         }
                     }
                 }
