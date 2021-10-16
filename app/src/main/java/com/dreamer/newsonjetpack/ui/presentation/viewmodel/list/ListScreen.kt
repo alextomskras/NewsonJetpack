@@ -32,11 +32,11 @@ import com.dreamer.newsonjetpack.model.News
 import com.dreamer.newsonjetpack.ui.presentation.Destinations
 import com.dreamer.newsonjetpack.ui.theme.NewsAppTheme
 
-object Destinations {
-    const val LIST_SCREEN = "LIST_SCREEN"
-    const val DETAILS_SCREEN = "DETAILS_SCREEN"
-    const val SEARCH_SCREEN = "SEARCH_SCREEN"
-}
+//object Destinations {
+//    const val LIST_SCREEN = "LIST_SCREEN"
+//    const val DETAILS_SCREEN = "DETAILS_SCREEN"
+//    const val SEARCH_SCREEN = "SEARCH_SCREEN"
+//}
 
 @Composable
 fun ListScreen(
