@@ -71,7 +71,7 @@ fun SearchScreen(
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = stringResource(R.string.backDescription),
                         )
                     }
                 }
@@ -125,7 +125,8 @@ fun SearchScreen(
                             keyboardType = KeyboardType.Text
                         ),
                         keyboardActions = KeyboardActions(
-                            onDone = { keyboardController?.hide() }
+                            onDone = { navController.popBackStack() }
+//                            onDone = { keyboardController?.hide() }
                         ),
                         onValueChange = { textOfSearch = it },
                         label = {
@@ -158,6 +159,7 @@ fun SearchScreen(
 //                    )
                     Button(
                         onClick = {
+                            navController.popBackStack()
 //                            scope.launch {
 //                                scaffoldState
 //                                    .snackbarHostState
@@ -167,7 +169,7 @@ fun SearchScreen(
                         modifier = Modifier.align(Alignment.End),
 //                        enabled = myViewmodel.text.isNotBlank() && myViewmodel.password.isNotBlank(),
                     ) {
-                        Text(text = "Submit")
+                        Text(text = stringResource(R.string.submitBtnTxt))
                     }
                 }
 //                }

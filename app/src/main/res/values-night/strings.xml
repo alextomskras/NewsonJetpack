@@ -6,4 +6,6 @@
     <string name="search_settings">search settings</string>
     <string name="serchscreenLabel">Country for search</string>
     <string name="initCountrySearchRequest">RU</string>
+    <string name="backDescription">Back</string>
+    <string name="submitBtnTxt">Submit</string>
 </resources>
