@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dreamer.newsonjetpack.model.News
 import com.dreamer.newsonjetpack.repository.NewsRepository
+import com.dreamer.newsonjetpack.ui.presentation.viewmodel.search.searchCountry
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,7 +21,7 @@ class ListScreenViewModel @Inject constructor(
 
     fun getNews(): LiveData<List<News>> {
         viewModelScope.launch(Dispatchers.IO) {
-            val news = repository.getNews("RU")
+            val news = repository.getNews(searchCountry)
             _news.postValue(news)
         }
         return _news

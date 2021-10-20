@@ -1,6 +1,7 @@
 package com.dreamer.newsonjetpack.ui.presentation.viewmodel.search
 
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -11,6 +12,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -22,6 +24,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.dreamer.newsonjetpack.R
 import com.dreamer.newsonjetpack.ui.theme.NewsAppTheme
+
+var searchCountry: String = "RU"
 
 @Composable
 fun SearchScreen(
@@ -74,7 +78,6 @@ fun SearchScreen(
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState()),
         ) {
-
             Column {
 //                Image(
 //                    modifier = Modifier
@@ -97,17 +100,57 @@ fun SearchScreen(
                 )
 
                 {
-                    var text by remember { mutableStateOf("") }
+                    var textOfSearch by remember { mutableStateOf("") }
+                    searchCountry = textOfSearch
 
                     OutlinedTextField(
 
-                        value = text,
-                        onValueChange = { text = it },
-                        label = { Text("Label", fontSize = 18.sp, fontWeight = FontWeight.Bold) },
+                        value = textOfSearch,
+                        onValueChange = { textOfSearch = it },
+                        label = {
+                            Text(
+                                stringResource(R.string.serchscreenLabel),
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        },
                         modifier = Modifier.fillMaxWidth()
                     )
 
                 }
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                )
+                {
+//                    MyTextField(
+//                        label = "User Name",
+//                        value = myViewmodel.text,
+//                        onValueChanged = { myViewmodel.onTextChanged(it) }
+//                    )
+//                    MyTextField(
+//                        label = "Password",
+//                        visualTransformation = PasswordVisualTransformation(),
+//                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+//                        value = myViewmodel.password,
+//                        onValueChanged = { myViewmodel.onPasswordChanged(it) }
+//                    )
+                    Button(
+                        onClick = {
+//                            scope.launch {
+//                                scaffoldState
+//                                    .snackbarHostState
+//                                    .showSnackbar("Hello, ${myViewmodel.text}")
+//                            }
+                        },
+                        modifier = Modifier.align(Alignment.End),
+//                        enabled = myViewmodel.text.isNotBlank() && myViewmodel.password.isNotBlank(),
+                    ) {
+                        Text(text = "Submit")
+                    }
+                }
+//                }
+
 //                Column(Modifier.padding(8.dp)) {
 //                    val context = LocalContext.current
 //

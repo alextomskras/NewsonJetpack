@@ -4,4 +4,5 @@
     <string name="Top_news">Top news</string>
     <string name="Set_search">Set search country</string>
     <string name="search_settings">search settings</string>
+    <string name="serchscreenLabel">Country for search</string>
 </resources>
