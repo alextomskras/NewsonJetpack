@@ -1,6 +1,7 @@
 package com.dreamer.newsonjetpack.ui.presentation.viewmodel.search
 
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,6 +36,7 @@ import com.dreamer.newsonjetpack.ui.theme.NewsAppTheme
 //val context = LocalContext
 
 //var searchCountry: String = ""
+@ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @Composable
 fun SearchScreen(
@@ -48,11 +50,13 @@ fun SearchScreen(
 }
 
 
+@ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @Composable
 fun SearchScreen(
     navController: NavController
 ) {
+
     Scaffold(
 //        floatingActionButton = {
 //            FloatingActionButton(
@@ -65,6 +69,7 @@ fun SearchScreen(
 //            }
 //        }
         topBar = {
+
             TopAppBar(
                 title = { Text(stringResource(R.string.search_settings), maxLines = 1) },
                 navigationIcon = {
@@ -113,6 +118,8 @@ fun SearchScreen(
                     /// experimental API on jetpack - ahtung!!!!!
                     val keyboardController = LocalSoftwareKeyboardController.current
                     var textOfSearch by remember { mutableStateOf("") }
+
+
                     searchCountry = textOfSearch
 
                     OutlinedTextField(
@@ -167,8 +174,10 @@ fun SearchScreen(
 //                            }
                         },
                         modifier = Modifier.align(Alignment.End),
-//                        enabled = myViewmodel.text.isNotBlank() && myViewmodel.password.isNotBlank(),
+                        enabled = searchCountry.isNotBlank(),
+//                        enabled = searchCountry.isNotBlank() && myViewmodel.password.isNotBlank(),
                     ) {
+
                         Text(text = stringResource(R.string.submitBtnTxt))
                     }
                 }
@@ -199,8 +208,49 @@ fun SearchScreen(
 }
 
 //}
+//@Composable
+//fun DropdownDemo() {
+//    var expanded by remember { mutableStateOf(false) }
+//    val items = listOf("A", "B", "C", "D", "E", "F")
+//    val disabledValue = "B"
+//    var selectedIndex by remember { mutableStateOf(0) }
+//    Box(modifier = Modifier
+//        .fillMaxSize()
+//        .wrapContentSize(Alignment.TopStart)) {
+//        Text(items[selectedIndex],modifier = Modifier
+//            .fillMaxWidth()
+//            .clickable(onClick = { expanded = true })
+//            .background(
+//                Color.Gray
+//            ))
+//        DropdownMenu(
+//            expanded = expanded,
+//            onDismissRequest = { expanded = false },
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .background(
+//                    Color.Red
+//                )
+//        ) {
+//            items.forEachIndexed { index, s ->
+//                DropdownMenuItem(onClick = {
+//                    selectedIndex = index
+//                    expanded = false
+//                }) {
+//                    val disabledText = if (s == disabledValue) {
+//                        " (Disabled)"
+//                    } else {
+//                        ""
+//                    }
+//                    Text(text = s + disabledText)
+//                }
+//            }
+//        }
+//    }
+//}
 
 
+@ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @Preview(showBackground = true)
 @Composable
