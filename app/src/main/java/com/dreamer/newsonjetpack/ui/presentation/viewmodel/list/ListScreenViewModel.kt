@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dreamer.newsonjetpack.model.News
 import com.dreamer.newsonjetpack.repository.NewsRepository
-import com.dreamer.newsonjetpack.ui.presentation.viewmodel.search.searchCountry
+import com.dreamer.newsonjetpack.ui.presentation.searchCountry
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

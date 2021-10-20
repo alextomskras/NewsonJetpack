@@ -5,4 +5,5 @@
     <string name="Set_search">Set search country</string>
     <string name="search_settings">search settings</string>
     <string name="serchscreenLabel">Country for search</string>
+    <string name="initCountrySearchRequest">RU</string>
 </resources>
