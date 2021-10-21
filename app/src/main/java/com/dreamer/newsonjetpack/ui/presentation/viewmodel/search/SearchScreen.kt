@@ -132,8 +132,8 @@ fun SearchScreen(
                             keyboardType = KeyboardType.Text
                         ),
                         keyboardActions = KeyboardActions(
-                            onDone = { navController.popBackStack() }
-//                            onDone = { keyboardController?.hide() }
+//                            onDone = { navController.popBackStack() }
+                            onDone = { keyboardController?.hide() }
                         ),
                         onValueChange = { textOfSearch = it },
                         label = {
