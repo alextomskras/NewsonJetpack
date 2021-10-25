@@ -1,25 +1,30 @@
 package com.dreamer.newsonjetpack.ui.presentation.viewmodel.list
 
 //import com.dreamer.newsonjetpack.Destinations
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,6 +35,7 @@ import coil.compose.rememberImagePainter
 import com.dreamer.newsonjetpack.R
 import com.dreamer.newsonjetpack.model.News
 import com.dreamer.newsonjetpack.ui.presentation.Destinations
+import com.dreamer.newsonjetpack.ui.presentation.searchCountry
 import com.dreamer.newsonjetpack.ui.theme.NewsAppTheme
 
 //object Destinations {
@@ -38,21 +44,128 @@ import com.dreamer.newsonjetpack.ui.theme.NewsAppTheme
 //    const val SEARCH_SCREEN = "SEARCH_SCREEN"
 //}
 
+@ExperimentalComposeUiApi
 @Composable
 fun ListScreen(
     navController: NavController,
     viewModel: ListScreenViewModel = hiltViewModel()
 ) {
     val newsList by viewModel.getNews().observeAsState(initial = emptyList())
-    ListScreen(navController, newsList)
+    StartSearch(navController, newsList)
+//    ListScreen(navController, newsList)
+
+}
+
+@ExperimentalComposeUiApi
+@Composable
+fun StartSearch(
+    navController: NavController,
+    newsList: List<News>
+) {
+
+
+    Box(
+
+        Modifier
+            .padding(8.dp)
+            .fillMaxWidth()
+
+
+    )
+
+    {
+//        SearchEnter()
+//        CircularButton(R.drawable.ic_launcher_background)
+        ListScreen(navController, newsList)
+    }
 
 }
 
 @Composable
+fun CircularButton(
+    @DrawableRes iconResouce: Int,
+    color: Color = Color.Gray,
+    elevation: ButtonElevation? = ButtonDefaults.elevation(),
+    onClick: () -> Unit = {}
+) {
+    Button(
+        onClick = { },
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = Color.White,
+            contentColor = Color.Red
+        )
+    ) { Text(text = "TEST") }
+    Button(
+        onClick = onClick,
+        contentPadding = PaddingValues(),
+        shape = RoundedCornerShape(4.dp),
+        colors = ButtonDefaults.buttonColors(backgroundColor = Color.White, contentColor = color),
+        elevation = elevation,
+        modifier = Modifier
+            .width(38.dp)
+            .height(38.dp)
+    ) {
+        Icon(painterResource(id = iconResouce), null)
+    }
+}
+
+//@ExperimentalComposeUiApi
+//@Composable
+//fun SearchEnter()
+//{
+////    Scaffold() {
+//
+//
+//    Column(
+//
+//        Modifier
+//            .padding(8.dp)
+//            .fillMaxWidth()
+//
+//
+//    )
+//
+//    {
+//        /// experimental API on jetpack - ahtung!!!!!
+//        val keyboardController = LocalSoftwareKeyboardController.current
+//        var textOfSearch by remember { mutableStateOf("") }
+//
+//
+//        searchCountry = textOfSearch
+//
+//        OutlinedTextField(
+//            value = textOfSearch,
+//            singleLine = true,
+//            keyboardOptions = KeyboardOptions(
+//                imeAction = ImeAction.Done,
+//                keyboardType = KeyboardType.Text
+//            ),
+//            keyboardActions = KeyboardActions(
+////                            onDone = { navController.popBackStack() }
+//                onDone = { keyboardController?.hide() }
+//            ),
+//            onValueChange = { textOfSearch = it },
+//            label = {
+//                Text(
+//                    stringResource(R.string.serchscreenLabel),
+//                    fontSize = 18.sp,
+//                    fontWeight = FontWeight.Bold
+//                )
+//            },
+//            modifier = Modifier.fillMaxWidth()
+//        )
+//    }
+//}
+
+
+@ExperimentalComposeUiApi
+@Composable
 fun ListScreen(
     navController: NavController,
     news: List<News>
+
 ) {
+
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
@@ -66,15 +179,103 @@ fun ListScreen(
                     contentDescription = stringResource(R.string.Set_search)
                 )
             }
+        },
+        topBar = {
+            TopAppBar(
+                title = { Text(stringResource(R.string.Top_news)) },
+            )
         }
-//        topBar = {
-//            TopAppBar(
-//                title = { Text(stringResource(R.string.Top_news)) },
-//            )
-//        }
     )
     {
+//                /// experimental API on jetpack - ahtung!!!!!
+//        val keyboardController = LocalSoftwareKeyboardController.current
+//        var textOfSearch by remember { mutableStateOf("RU") }
+//
+//
+//        searchCountry = textOfSearch
+//
+//        OutlinedTextField(
+//            value = textOfSearch,
+//            singleLine = true,
+//            keyboardOptions = KeyboardOptions(
+//                imeAction = ImeAction.Done,
+//                keyboardType = KeyboardType.Text
+//            ),
+//            keyboardActions = KeyboardActions(
+////                            onDone = { navController.popBackStack() }
+//                onDone = { keyboardController?.hide() }
+//            ),
+//            onValueChange = { textOfSearch = it },
+//            label = {
+//                Text(
+//                    stringResource(R.string.serchscreenLabel),
+//                    fontSize = 18.sp,
+//                    fontWeight = FontWeight.Bold
+//                )
+//            },
+//            modifier = Modifier.fillMaxWidth()
+//        )
+//
+//        Button(
+//
+//            onClick = { navController.navigate(Destinations.SEARCH_SCREEN)},
+//            colors = ButtonDefaults.buttonColors(
+//                backgroundColor = Color.White,
+//                contentColor = Color.Red
+//            ),
+//        elevation=  ButtonDefaults.elevation(
+//            defaultElevation = 6.dp,
+//            pressedElevation = 8.dp,
+//            disabledElevation = 0.dp
+//        )
+//        ) { Text(text = "TEST") }
+//        Spacer(modifier = Modifier.padding(32.dp))
         LazyColumn {
+            items(1) {
+                /// experimental API on jetpack - ahtung!!!!!
+                val keyboardController = LocalSoftwareKeyboardController.current
+                var textOfSearch by remember { mutableStateOf("RU") }
+
+
+                searchCountry = textOfSearch
+
+                OutlinedTextField(
+                    value = textOfSearch,
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Done,
+                        keyboardType = KeyboardType.Text
+                    ),
+                    keyboardActions = KeyboardActions(
+//                            onDone = { navController.popBackStack() }
+                        onDone = { keyboardController?.hide() }
+                    ),
+                    onValueChange = { textOfSearch = it },
+                    label = {
+                        Text(
+                            stringResource(R.string.serchscreenLabel),
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                Button(
+
+                    onClick = { navController.navigate(Destinations.SEARCH_SCREEN) },
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = Color.White,
+                        contentColor = Color.Red
+                    ),
+                    elevation = ButtonDefaults.elevation(
+                        defaultElevation = 6.dp,
+                        pressedElevation = 8.dp,
+                        disabledElevation = 0.dp
+                    )
+                ) { Text(text = "TEST") }
+                Spacer(modifier = Modifier.padding(32.dp))
+            }
             items(news) { new ->
                 Card(
                     shape = RoundedCornerShape(8.dp),
@@ -113,6 +314,7 @@ fun ListScreen(
     }
 }
 
+@ExperimentalComposeUiApi
 @Preview(showBackground = true)
 @Composable
 fun ListPreview() {

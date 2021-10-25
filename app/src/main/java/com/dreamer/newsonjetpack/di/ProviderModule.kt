@@ -24,11 +24,12 @@ class ProviderModule {
     @Singleton
     @Provides
     fun provideRetrofit(@Named("BaseUrl") baseUrl: HttpUrl): Retrofit {
+        val errorInterceptor = ErrorInterceptor()
         val logging = HttpLoggingInterceptor()
         logging.level = HttpLoggingInterceptor.Level.BODY
 
         val okHttpClient = OkHttpClient.Builder()
-//            .addInterceptor(connectivityInterceptor)
+            .addInterceptor(errorInterceptor)
 //            .addInterceptor(requestInterceptor)
             .addInterceptor(logging)
             .build()
