@@ -37,6 +37,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -257,12 +258,16 @@ fun SearchView(state: MutableState<TextFieldValue>, navController: NavController
 //                onDone = { navController.popBackStack() }
 //                onDone = { keyboardController?.hide() }
         ),
+        maxLines = 1,
+        label = { Text(text = stringResource(id = R.string.prompt_search)) },
+        visualTransformation = PasswordVisualTransformation(),
         shape = RectangleShape, // The TextFiled has rounded corners top left and right by default
         colors = TextFieldDefaults.textFieldColors(
             textColor = Color.White,
             cursorColor = Color.White,
             leadingIconColor = Color.White,
             trailingIconColor = Color.White,
+            unfocusedLabelColor = Color.LightGray,
             backgroundColor = colorResource(id = R.color.design_default_color_primary),
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
