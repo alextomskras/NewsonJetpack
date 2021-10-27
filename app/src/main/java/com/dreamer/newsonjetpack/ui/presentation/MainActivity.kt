@@ -30,7 +30,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.dreamer.newsonjetpack.R
 import com.dreamer.newsonjetpack.ui.presentation.viewmodel.detail.DetailsScreen
-import com.dreamer.newsonjetpack.ui.presentation.viewmodel.list.ListScreen
+import com.dreamer.newsonjetpack.ui.presentation.viewmodel.list.ListScreen1
 import com.dreamer.newsonjetpack.ui.presentation.viewmodel.search.SearchScreen
 import com.dreamer.newsonjetpack.ui.theme.NewsAppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -77,7 +77,7 @@ class MainActivity : ComponentActivity() {
                         startDestination = Destinations.LIST_SCREEN,
                     ) {
                         composable(Destinations.LIST_SCREEN) {
-                            ListScreen(navController)
+                            ListScreen1(navController)
                         }
                         composable("${Destinations.DETAILS_SCREEN}/{newTitle}") {
                             it.arguments?.getString("newTitle")?.let { title ->
