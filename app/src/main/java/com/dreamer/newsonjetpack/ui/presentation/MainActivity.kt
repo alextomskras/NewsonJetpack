@@ -1,6 +1,5 @@
 package com.dreamer.newsonjetpack.ui.presentation
 
-import android.graphics.Color.WHITE
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -57,7 +56,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val windows = this.window
-        windows.statusBarColor = WHITE
+        windows.statusBarColor = resources.getColor(R.color.design_default_color_primary)
 //        val nc = isNetworkConnected()
 //        val ping = internetIsConnected()
 //        Log.e("TAG",nc.toString())

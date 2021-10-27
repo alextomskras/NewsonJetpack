@@ -13,6 +13,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -24,13 +27,17 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.Green
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -69,7 +76,7 @@ fun StartSearch(
     navController: NavController,
     newsList: List<News>
 ) {
-
+    var navCont1 = NavController
 
     Box(
 
@@ -86,19 +93,19 @@ fun StartSearch(
         ListScreen(navController, newsList)
 
     }
-    Spacer(modifier = Modifier.padding(32.dp))
-    Box(
-
-        Modifier
-            .padding(8.dp)
-            .fillMaxWidth()
-
-
-    )
-
-    {
-//        ListScreen(navController, newsList)
-    }
+//    Spacer(modifier = Modifier.padding(32.dp))
+//    Box(
+//
+//        Modifier
+//            .padding(8.dp)
+//            .fillMaxWidth()
+//
+//
+//    )
+//
+//    {
+////        ListScreen(navController, newsList)
+//    }
 
 }
 
@@ -194,6 +201,75 @@ fun SearchEnter() {
     )
 }
 
+@ExperimentalComposeUiApi
+@Composable
+
+//draw SearchBar and recall fun for renew data
+fun SearchView(state: MutableState<TextFieldValue>, navController: NavController) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+    TextField(
+        value = state.value,
+        onValueChange = { value ->
+            state.value = value
+        },
+        modifier = Modifier
+            .fillMaxWidth(),
+        textStyle = TextStyle(color = Color.White, fontSize = 18.sp),
+        leadingIcon = {
+            Icon(
+                imageVector =
+                Icons.Default.Search,
+                contentDescription = "",
+                modifier = Modifier
+                    .padding(15.dp)
+                    .size(24.dp)
+            )
+        },
+        trailingIcon = {
+            if (state.value != TextFieldValue("")) {
+                IconButton(
+                    onClick = {
+                        state.value =
+                            TextFieldValue("") // Remove text from TextField when you press the 'X' icon
+                    }
+                ) {
+                    Icon(
+                        Icons.Default.Close,
+                        contentDescription = "",
+                        modifier = Modifier
+                            .padding(15.dp)
+                            .size(24.dp)
+                    )
+                }
+            }
+        },
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Done,
+            keyboardType = KeyboardType.Text
+        ),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                keyboardController?.hide();searchCountry = state.value.text;navController.navigate(
+                Destinations.LIST_SCREEN
+            )
+            }
+//                onDone = { navController.popBackStack() }
+//                onDone = { keyboardController?.hide() }
+        ),
+        shape = RectangleShape, // The TextFiled has rounded corners top left and right by default
+        colors = TextFieldDefaults.textFieldColors(
+            textColor = Color.White,
+            cursorColor = Color.White,
+            leadingIconColor = Color.White,
+            trailingIconColor = Color.White,
+            backgroundColor = colorResource(id = R.color.design_default_color_primary),
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent
+        )
+    )
+}
 
 @ExperimentalComposeUiApi
 @Composable
@@ -202,33 +278,36 @@ fun ListScreen(
     news: List<News>
 
 ) {
-    Column(Modifier.fillMaxSize()) {
+    ///analog relatively layout - for create TopBar and FAB if is needed
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    navController.navigate(Destinations.SEARCH_SCREEN)
+                },
+                backgroundColor = MaterialTheme.colors.primary
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Search,
+                    contentDescription = stringResource(R.string.Set_search)
+                )
+            }
+        },
+//        topBar = {
+//            TopAppBar(
+//                title = { Text(stringResource(R.string.Top_news)) },
+//            )
+//        }
+    )
+    {
+        val textState = remember { mutableStateOf(TextFieldValue("")) }
+        Column(Modifier.fillMaxSize()) {
 //////Paint button
 //        CircularButton(R.drawable.ic_launcher_background)
 
-//    Scaffold(
-//        floatingActionButton = {
-//            FloatingActionButton(
-//                onClick = {
-//                    navController.navigate(Destinations.SEARCH_SCREEN)
-//                },
-//                backgroundColor = MaterialTheme.colors.primary
-//            ) {
-//                Icon(
-//                    imageVector = Icons.Default.Search,
-//                    contentDescription = stringResource(R.string.Set_search)
-//                )
-//            }
-//        },
-////        topBar = {
-////            TopAppBar(
-////                title = { Text(stringResource(R.string.Top_news)) },
-////            )
-////        }
-//    )
-//    {
-        SearchEnter()
-        /// experimental API on jetpack - ahtung!!!!!
+            SearchView(textState, navController = navController)
+//            SearchEnter()
+            /// experimental API on jetpack - ahtung!!!!!
 //        val keyboardController = LocalSoftwareKeyboardController.current
 //        var textOfSearch by remember { mutableStateOf(searchCountry) }
 //
@@ -272,12 +351,14 @@ fun ListScreen(
 //        )
 //        ) { Text(text = "TEST1") }
 //
-        Spacer(modifier = Modifier.padding(2.dp))
-        LazyColumn(
-            modifier = Modifier
-                .weight(1f),
-            contentPadding = PaddingValues(vertical = 2.dp)
-        ) {
+            /// space drop down from TopBar to LazyColumn
+            Spacer(modifier = Modifier.padding(2.dp))
+            LazyColumn(
+                modifier = Modifier
+                    /// for LazyColumn bottom of searchBar or any other object's
+                    .weight(1f),
+                contentPadding = PaddingValues(vertical = 2.dp)
+            ) {
 
 ////            items(1) {
 //                /// experimental API on jetpack - ahtung!!!!!
@@ -324,43 +405,55 @@ fun ListScreen(
 //                ) { Text(text = "TEST") }
 //                Spacer(modifier = Modifier.padding(32.dp))
 //            }
-            items(news) { new ->
-                Card(
-                    shape = RoundedCornerShape(8.dp),
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .fillMaxWidth()
-                        .clickable {
-                            navController.navigate("${Destinations.DETAILS_SCREEN}/${new.title}")
-                        },
-                ) {
-                    Column {
-                        Image(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .aspectRatio(16f / 9f),
-                            painter = rememberImagePainter(
-                                data = new.urlToImage,
-                                builder = {
-                                    placeholder(R.drawable.placeholder)
-                                    error(R.drawable.placeholder)
+                items(news) { new ->
+                    Card(
+                        shape = RoundedCornerShape(8.dp),
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .fillMaxWidth()
+                            .clickable {
+                                navController.navigate("${Destinations.DETAILS_SCREEN}/${new.title}") {
+                                    // Pop up to the start destination of the graph to
+                                    // avoid building up a large stack of destinations
+                                    // on the back stack as users select items
+                                    popUpTo("main") {
+                                        saveState = true
+                                    }
+                                    // Avoid multiple copies of the same destination when
+                                    // reselecting the same item
+                                    launchSingleTop = true
+                                    // Restore state when reselecting a previously selected item
+                                    restoreState = true
                                 }
-                            ),
-                            contentDescription = null,
-                            contentScale = ContentScale.FillWidth
-                        )
-                        Column(Modifier.padding(8.dp)) {
-                            Text(new.title, fontSize = 18.sp, fontWeight = FontWeight.Bold)
-                            Text(new.content ?: "", maxLines = 3)
+                            },
+                    ) {
+                        Column {
+                            Image(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .aspectRatio(16f / 9f),
+                                painter = rememberImagePainter(
+                                    data = new.urlToImage,
+                                    builder = {
+                                        placeholder(R.drawable.placeholder)
+                                        error(R.drawable.placeholder)
+                                    }
+                                ),
+                                contentDescription = null,
+                                contentScale = ContentScale.FillWidth
+                            )
+                            Column(Modifier.padding(8.dp)) {
+                                Text(new.title, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                                Text(new.content ?: "", maxLines = 3)
+                            }
                         }
-                    }
 
+                    }
                 }
             }
-        }
 
+        }
     }
-//}
 
 
     @Preview(showBackground = true)
