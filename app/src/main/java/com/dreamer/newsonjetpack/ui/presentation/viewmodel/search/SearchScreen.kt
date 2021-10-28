@@ -31,7 +31,10 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.dreamer.newsonjetpack.R
 import com.dreamer.newsonjetpack.ui.presentation.searchCountry
+import com.dreamer.newsonjetpack.ui.presentation.viewmodel.list.getListOfCountries
 import com.dreamer.newsonjetpack.ui.theme.NewsAppTheme
+import com.dreamer.newsonjetpack.utils.AutoCompleteName
+
 
 //val context = LocalContext
 
@@ -93,7 +96,12 @@ fun SearchScreen(
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState()),
         ) {
-            Column {
+            Column(
+                modifier = Modifier
+
+                    .fillMaxWidth(),
+            ) {
+
 //                Image(
 //                    modifier = Modifier
 //                        .fillMaxWidth()
@@ -148,6 +156,9 @@ fun SearchScreen(
 
                 }
                 Column(
+                    Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 )
@@ -164,6 +175,46 @@ fun SearchScreen(
 //                        value = myViewmodel.password,
 //                        onValueChanged = { myViewmodel.onPasswordChanged(it) }
 //                    )
+                    Button(
+                        onClick = {
+                            navController.popBackStack()
+//                            scope.launch {
+//                                scaffoldState
+//                                    .snackbarHostState
+//                                    .showSnackbar("Hello, ${myViewmodel.text}")
+//                            }
+                        },
+                        modifier = Modifier.align(Alignment.End),
+                        enabled = searchCountry.isNotBlank(),
+//                        enabled = searchCountry.isNotBlank() && myViewmodel.password.isNotBlank(),
+                    ) {
+
+                        Text(text = stringResource(R.string.submitBtnTxt))
+                    }
+                }
+
+                Column(
+                    Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                )
+                {
+//                    MyTextField(
+//                        label = "User Name",
+//                        value = myViewmodel.text,
+//                        onValueChanged = { myViewmodel.onTextChanged(it) }
+//                    )
+//                    MyTextField(
+//                        label = "Password",
+//                        visualTransformation = PasswordVisualTransformation(),
+//                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+//                        value = myViewmodel.password,
+//                        onValueChanged = { myViewmodel.onPasswordChanged(it) }
+//                    )
+
+                    AutoCompleteName(getListOfCountries())
                     Button(
                         onClick = {
                             navController.popBackStack()

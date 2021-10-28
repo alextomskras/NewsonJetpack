@@ -8,5 +8,5 @@
     <string name="initCountrySearchRequest">RU</string>
     <string name="backDescription">Back</string>
     <string name="submitBtnTxt">Submit</string>
-    <string name="prompt_search">Please enter etc.. US GB RU </string>
+    <string name="prompt_search">Please enter US, GB, RU  etc..  </string>
 </resources>

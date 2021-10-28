@@ -3,6 +3,7 @@ package com.dreamer.newsonjetpack.ui.presentation.viewmodel.list
 //import com.dreamer.newsonjetpack.Destinations
 
 
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,6 +20,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -38,7 +40,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -60,7 +61,7 @@ import kotlin.collections.ArrayList
 //    const val DETAILS_SCREEN = "DETAILS_SCREEN"
 //    const val SEARCH_SCREEN = "SEARCH_SCREEN"
 //}
-
+val isSearching = false
 @ExperimentalComposeUiApi
 @Composable
 fun ListScreen1(
@@ -205,79 +206,7 @@ fun SearchEnter() {
     )
 }
 
-@ExperimentalComposeUiApi
-@Composable
 
-//draw SearchBar and recall fun for renew data
-fun SearchView(state: MutableState<TextFieldValue>, navController: NavController) {
-    val keyboardController = LocalSoftwareKeyboardController.current
-    TextField(
-        value = state.value,
-        onValueChange = { value ->
-            state.value = value
-        },
-        modifier = Modifier
-            .fillMaxWidth(),
-        textStyle = TextStyle(color = Color.White, fontSize = 18.sp),
-        leadingIcon = {
-            Icon(
-                imageVector =
-                Icons.Default.Search,
-                contentDescription = "",
-                modifier = Modifier
-                    .padding(15.dp)
-                    .size(24.dp)
-            )
-        },
-        trailingIcon = {
-            if (state.value != TextFieldValue("")) {
-                IconButton(
-                    onClick = {
-                        state.value =
-                            TextFieldValue("") // Remove text from TextField when you press the 'X' icon
-                    }
-                ) {
-                    Icon(
-                        Icons.Default.Close,
-                        contentDescription = "",
-                        modifier = Modifier
-                            .padding(15.dp)
-                            .size(24.dp)
-                    )
-                }
-            }
-        },
-        singleLine = true,
-        keyboardOptions = KeyboardOptions(
-            imeAction = ImeAction.Done,
-            keyboardType = KeyboardType.Text
-        ),
-        keyboardActions = KeyboardActions(
-            onDone = {
-                keyboardController?.hide();searchCountry = state.value.text;navController.navigate(
-                Destinations.LIST_SCREEN
-            )
-            }
-//                onDone = { navController.popBackStack() }
-//                onDone = { keyboardController?.hide() }
-        ),
-        maxLines = 1,
-        label = { Text(text = stringResource(id = R.string.prompt_search)) },
-        visualTransformation = PasswordVisualTransformation(),
-        shape = RectangleShape, // The TextFiled has rounded corners top left and right by default
-        colors = TextFieldDefaults.textFieldColors(
-            textColor = Color.White,
-            cursorColor = Color.White,
-            leadingIconColor = Color.White,
-            trailingIconColor = Color.White,
-            unfocusedLabelColor = Color.LightGray,
-            backgroundColor = colorResource(id = R.color.design_default_color_primary),
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent
-        )
-    )
-}
 
 
 @ExperimentalComposeUiApi
@@ -310,12 +239,17 @@ fun ListScreen(
     )
     {
         val textState = remember { mutableStateOf(TextFieldValue("")) }
-        Column(Modifier.fillMaxSize()) {
+        Column(
+            Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+
+        ) {
 //////Paint button
 //        CircularButton(R.drawable.ic_launcher_background)
 
             SearchView(textState, navController = navController)
-            CountryList(state = textState)
+//            CountryList(state = textState)
 //            SearchEnter()
             /// experimental API on jetpack - ahtung!!!!!
 //        val keyboardController = LocalSoftwareKeyboardController.current
@@ -492,6 +426,87 @@ fun ListScreen(
     }
 }
 
+
+@ExperimentalComposeUiApi
+@Composable
+
+//draw SearchBar and recall fun for renew data
+fun SearchView(state: MutableState<TextFieldValue>, navController: NavController) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    TextField(
+
+        value = state.value,
+//        CountryList(state = state),
+        onValueChange = { value -> state.value = value },
+        modifier = Modifier
+            .fillMaxWidth(),
+
+//        .onFocusChanged { if (state.value.isFocused) {
+//            isSearching = true
+//        } },
+        textStyle = TextStyle(color = Color.White, fontSize = 18.sp),
+        leadingIcon = {
+            Icon(
+                imageVector =
+                Icons.Default.Search,
+                contentDescription = "",
+                modifier = Modifier
+                    .padding(15.dp)
+                    .size(24.dp)
+            )
+        },
+        trailingIcon = {
+            if (state.value != TextFieldValue("")) {
+                IconButton(
+                    onClick = {
+                        state.value =
+                            TextFieldValue("") // Remove text from TextField when you press the 'X' icon
+                    }
+                ) {
+                    Icon(
+                        Icons.Default.Close,
+                        contentDescription = "",
+                        modifier = Modifier
+                            .padding(15.dp)
+                            .size(24.dp)
+                    )
+                }
+            }
+        },
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Done,
+            keyboardType = KeyboardType.Text
+        ),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                keyboardController?.hide();searchCountry = state.value.text;navController.navigate(
+                Destinations.LIST_SCREEN
+            )
+            }
+//                onDone = { navController.popBackStack() }
+//                onDone = { keyboardController?.hide() }
+        ),
+        maxLines = 1,
+        label = { Text(text = stringResource(id = R.string.prompt_search)) },
+//        visualTransformation = PasswordVisualTransformation(),
+        shape = RectangleShape, // The TextFiled has rounded corners top left and right by default
+
+        colors = TextFieldDefaults.textFieldColors(
+            textColor = Color.White,
+            cursorColor = Color.White,
+            leadingIconColor = Color.White,
+            trailingIconColor = Color.White,
+            unfocusedLabelColor = Color.LightGray,
+            backgroundColor = colorResource(id = R.color.design_default_color_primary),
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent
+        )
+    )
+}
+
 @Composable
 fun CountryList(state: MutableState<TextFieldValue>) {
     val countries = getListOfCountries()
@@ -566,16 +581,22 @@ fun CountryListItemPreview() {
 
 fun getListOfCountries(): ArrayList<String> {
     val isoCountryCodes = Locale.getISOCountries()
+    Log.e("isoCountryCodes", isoCountryCodes.toString())
     val countryListWithEmojis = ArrayList<String>()
+    Log.e("countryListWithEmojis", isoCountryCodes.toString())
     for (countryCode in isoCountryCodes) {
         val locale = Locale("", countryCode)
         val countryName = locale.displayCountry
+        Log.e("isoCountryCodes1", countryName.toString())
         val flagOffset = 0x1F1E6
         val asciiOffset = 0x41
         val firstChar = Character.codePointAt(countryCode, 0) - asciiOffset + flagOffset
+        Log.e("isoCountryCodes2", firstChar.toString())
         val secondChar = Character.codePointAt(countryCode, 1) - asciiOffset + flagOffset
+        Log.e("isoCountryCodes3", secondChar.toString())
         val flag =
             (String(Character.toChars(firstChar)) + String(Character.toChars(secondChar)))
+        Log.e("isoCountryCodes4", flag.toString())
         countryListWithEmojis.add("$countryName $flag")
     }
     return countryListWithEmojis
