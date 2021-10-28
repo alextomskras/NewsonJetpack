@@ -5,6 +5,7 @@ package com.dreamer.newsonjetpack.ui.presentation.viewmodel.list
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -51,6 +52,8 @@ import com.dreamer.newsonjetpack.model.News
 import com.dreamer.newsonjetpack.ui.presentation.Destinations
 import com.dreamer.newsonjetpack.ui.presentation.searchCountry
 import com.dreamer.newsonjetpack.ui.theme.NewsAppTheme
+import java.util.*
+import kotlin.collections.ArrayList
 
 //object Destinations {
 //    const val LIST_SCREEN = "LIST_SCREEN"
@@ -276,6 +279,7 @@ fun SearchView(state: MutableState<TextFieldValue>, navController: NavController
     )
 }
 
+
 @ExperimentalComposeUiApi
 @Composable
 fun ListScreen(
@@ -311,6 +315,7 @@ fun ListScreen(
 //        CircularButton(R.drawable.ic_launcher_background)
 
             SearchView(textState, navController = navController)
+            CountryList(state = textState)
 //            SearchEnter()
             /// experimental API on jetpack - ahtung!!!!!
 //        val keyboardController = LocalSoftwareKeyboardController.current
@@ -485,4 +490,93 @@ fun ListScreen(
             )
         }
     }
+}
+
+@Composable
+fun CountryList(state: MutableState<TextFieldValue>) {
+    val countries = getListOfCountries()
+    var filteredCountries: ArrayList<String>
+    LazyColumn(modifier = Modifier.fillMaxWidth()) {
+        val searchedText = state.value.text
+        filteredCountries = if (searchedText.isEmpty()) {
+            countries
+        } else {
+            val resultList = ArrayList<String>()
+            for (country in countries) {
+                if (country.lowercase(Locale.getDefault())
+                        .contains(searchedText.lowercase(Locale.getDefault()))
+                ) {
+                    resultList.add(country)
+                }
+            }
+            resultList
+        }
+        items(filteredCountries) { filteredCountry ->
+            CountryListItem(
+                countryText = filteredCountry,
+                onItemClick = {
+//                        selectedCountry ->
+//                    navController.navigate("details/$selectedCountry") {
+//                        // Pop up to the start destination of the graph to
+//                        // avoid building up a large stack of destinations
+//                        // on the back stack as users select items
+//                        popUpTo("main") {
+//                            saveState = true
+//                        }
+//                        // Avoid multiple copies of the same destination when
+//                        // reselecting the same item
+//                        launchSingleTop = true
+//                        // Restore state when reselecting a previously selected item
+//                        restoreState = true
+                },
+            )
+        }
+    }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun CountryListPreview() {
+    val navController = rememberNavController()
+    val textState = remember { mutableStateOf(TextFieldValue("")) }
+//    CountryList(navController = navController, state = textState)
+}
+
+@Composable
+fun CountryListItem(countryText: String, onItemClick: (String) -> Unit) {
+    Row(
+        modifier = Modifier
+            .clickable(onClick = { onItemClick(countryText) })
+            .background(colorResource(id = R.color.design_default_color_primary))
+            .height(57.dp)
+            .fillMaxWidth()
+            .padding(PaddingValues(8.dp, 16.dp))
+    ) {
+        Text(text = countryText, fontSize = 18.sp, color = Color.White)
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CountryListItemPreview() {
+    CountryListItem(countryText = "United States 🇺🇸", onItemClick = { })
+}
+
+
+fun getListOfCountries(): ArrayList<String> {
+    val isoCountryCodes = Locale.getISOCountries()
+    val countryListWithEmojis = ArrayList<String>()
+    for (countryCode in isoCountryCodes) {
+        val locale = Locale("", countryCode)
+        val countryName = locale.displayCountry
+        val flagOffset = 0x1F1E6
+        val asciiOffset = 0x41
+        val firstChar = Character.codePointAt(countryCode, 0) - asciiOffset + flagOffset
+        val secondChar = Character.codePointAt(countryCode, 1) - asciiOffset + flagOffset
+        val flag =
+            (String(Character.toChars(firstChar)) + String(Character.toChars(secondChar)))
+        countryListWithEmojis.add("$countryName $flag")
+    }
+    return countryListWithEmojis
 }
